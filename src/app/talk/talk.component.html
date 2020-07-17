@@ -1,0 +1,147 @@
+<div class="wrapper">
+  <div class="page-header clear-filter" filter-color="purple">
+    <div class="page-header-image rellax-header" data-rellax-speed="-7" style="background-image: url('assets/img/builder.png');"></div>
+      <div class="container">
+          <div class="content-center brand">
+              <h1 class="title">Builder Requests</h1>
+              <h2 style="margin-bottom: 0px;">Happy Talk&trade;</h2>
+              <h3>Build Kind</h3>
+              <button mat-raised-button color="accent" (click)="talk('/')" >Learn more</button> 
+              <br /><br/>
+              <ng-template  #login>
+                <app-widget-login></app-widget-login>
+              </ng-template>     
+              <div *ngIf="loggedIn;else login" class="card" style="background-color: teal; padding: 22px;font-size: 18px!important;" >
+
+                <div id="Start">
+                  <form [formGroup]="chatForm">
+                    <div class="row justify-content-md-center">
+                      <div class="col col-lg-12  col-md-12  col-sm-12">
+                          <div class="input-group form-group-no-border input-lg" [ngClass]="{'input-group-focus':focus===true}">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" style="min-width: 66px;">  <i class="now-ui-icons users_single-02"></i></span>
+                            </div>
+                            <input readonly type="text" [(ngModel)]="userJoined" formControlName="user" required id="username" class="form-control" style="color: wheat;">
+                            <!--input readonly [(ngModel)]="userJoined" name="userJoined" class="userJoined" class="form-control" (focus)="focus=true" (blur)="focus=false" -->
+                          </div>
+                          
+                          <div class="input-group form-group-no-border input-lg" [ngClass]="{'input-group-focus':focus===true}">
+                              <div class="input-group-prepend">
+                                  <span class="input-group-text" style="min-width: 66px;">  <i class="now-ui-icons design_bullet-list-67"></i></span>
+                              </div>
+                              
+                              <select placeholder="Select Request Type" class="form-control  form-control-lg" formControlName="room"  [(ngModel)]="roomJoined" id="Room">
+                                <ng-container *ngFor="let room of roomsForChat">
+                                  <option [value]="room">{{room}}</option>
+                                </ng-container>
+                              </select>
+                          </div>
+                        <br />
+                        <button mat-raised-button color="primary" (click)="join()" [disabled]="build_type_unselected" >Start Request</button>&nbsp;
+                        <button mat-raised-button color="accent" (click)="leave()" [disabled]="request_unstarted">Done</button>&nbsp;
+                        <button mat-raised-button color="accent" (click)="talk('/stories')" [disabled]="request_unstarted">Stories</button>  
+                        <br>
+                        <div *ngIf="join_message!=null">
+                          <h5> <span style="color:whitesmoke;">{{join_message}}</span></h5>
+                        </div>
+                        <div *ngIf="leave_message!=null">
+                          <h5> <span style="color:whitesmoke;">{{leave_message}}</span></h5>
+                        </div>
+                      </div>
+                      <div class="col col-lg-12  col-md-12  col-sm-12" hidden>
+                          <span style="color:crimson"><h4>Total Users Online:{{count}}</h4></span>
+
+                        <mat-card>
+                            <mat-card-header>
+                    
+                                <mat-card-title><span style="color:LightCoral ">Group Chat Box</span></mat-card-title>
+                                
+                            </mat-card-header>
+                            <mat-card-content>
+                                <div class="well" style="height:200px; padding:15px;">
+                                    <div *ngFor="let item of messageArray">
+                                    <span><strong>{{item.user}} : </strong> {{item.message}}</span>
+                                    </div>
+                                </div>
+                                <mat-form-field>
+                                <input type="text" matInput formControlName="messageText" [(ngModel)]="messageText" id='messageText' placeholder="Enter Message">   
+                                </mat-form-field>
+                            </mat-card-content>
+                            <mat-card-actions>
+                                        
+                                <button type="button" class="btn btn-success pull-right" (click)="sendMessage()" id="send">Send</button>
+                            </mat-card-actions>
+                          </mat-card>
+            
+
+                      </div>
+                    </div>
+                  </form>
+                </div>
+
+                <div id="Bequest" *ngIf="!request_unstarted">
+                  <form (ngSubmit)="createRequest()" >
+                      <div class="header header-primary text-center">
+                          &nbsp;
+                      </div>
+                      <div class="content-center">
+                        <div class="input-group form-group-no-border input-lg" [ngClass]="{'input-group-focus':focus===true}">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" style="min-width: 66px;">  <i class="now-ui-icons location_map-big"></i></span>
+                            </div>
+                            <input placeholder="Story"  [(ngModel)]="article" name="article" class="article form-control" (focus)="focus=true" (blur)="focus=false" >
+                        </div>
+
+                        <div class="input-group form-group-no-border input-lg" [ngClass]="{'input-group-focus':focus1===true}">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" style="min-width: 66px;"><i class="now-ui-icons text_caps-small"></i></span>
+                            </div>
+                            <input placeholder="Description"  [(ngModel)]="description" name="description" class="description form-control" (focus)="focus=true" (blur)="focus=false" >
+                        </div>
+                        
+                        <div class="input-group form-group-no-border input-lg" [ngClass]="{'input-group-focus':focus1===true}">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" style="min-width: 66px;"><i class="now-ui-icons location_pin"></i></span>
+                            </div>
+                            <input type="text" placeholder="Coordinates like 0000, 121, 0000"  [(ngModel)]="coords" name="coords" class="coords form-control" (focus)="focus=true" (blur)="focus=false" >
+                        </div>
+                    
+                        <button type ="submit" class="signup btn btn-default btn-lg" >Submit Builder Request</button>
+
+                        <div *ngIf="error_message!=null">
+                            <span style="color:red">{{error_message}}</span>
+                        </div>
+                    </div>
+                  </form>
+                </div>    
+
+            </div>   
+            <div class="hidden" style="text-align: left!important;">
+<!-- wp:paragraph -->
+<p>You are invited to explore and build on MY.HAPPYPLACEMC.COM, our family's Minecraft 1.15.2 server.  You're free to connect to the server and explore. You'll connect in creative mode with a complete inventory, but no access to place or break blocks. Learn more about free, earned and subscription build opportunities by reading the Stories here and then make a Build Request.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":4} -->
+<h4>Build Plots</h4>
+<!-- /wp:heading -->
+
+<!-- wp:list -->
+<ul><li><strong>Contest Plot</strong> : There will be open build competitions regularly scheduled on the Happy Talk calendar, described in a Contest story and announced on social media. These events are <strong><em>free </em></strong>and a great chance for us to get to know you. Earn access to a community plot. Win subscription plots.</li><li><strong>Community Plot</strong> : Various sized cubes described in a Community story available by <strong><em>earned </em></strong>access. Those standards are being developed.</li><li><strong>Central Plot</strong> : A 256 block cube available within 8000 x 8000 block central development area available by subscription. </li><li><strong>Wilderness Plot </strong>: Select a double or triple super-sized build plot available to subscribers outside the central development area.</li></ul>
+<!-- /wp:list -->
+
+<!-- wp:heading {"level":4} -->
+<h4>Build Request Steps</h4>
+<!-- /wp:heading -->
+
+<!-- wp:list {"ordered":true} -->
+<ol><li>Create a free explorer account with the your Minecraft username on <a href="http://my.happyplacemc.com" target="_blank" rel="noreferrer noopener">MY HAPPY PLACE</a>.</li><li>Login to <a href="https://my.happyplacemc.com/requests" target="_blank" rel="noreferrer noopener">Builder Requests</a>.</li><li>Optionally, subscribe to a Central or Wilderness plot.</li><li>Browse the Stories here to learn about build opportunities.</li><li>Select a Build Plot type and click Start Request.</li><li>Complete the Build Request form and submit it.</li><li>Give us 48 hours to get your new plot setup.</li></ol>
+<!-- /wp:list -->
+
+<!-- wp:paragraph -->
+<p></p>
+<!-- /wp:paragraph -->
+            </div>  
+          </div>
+      </div>
+  </div>
+</div>

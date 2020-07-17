@@ -1,0 +1,78 @@
+<div class="page-header-widget" filter-color="purple" *ngIf="!success_flag; else successLabel" >
+  <div class="container">
+      <div class="col-md-12 content-center" style="padding: 125px 0px;">
+
+              <form (ngSubmit)="createAccount()" >
+                  <div class="header header-primary text-center">
+                      &nbsp;
+                  </div>
+                  <div class="content-center">
+                    <div class="input-group form-group-no-border input-lg" [ngClass]="{'input-group-focus':focus===true}">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">  <i class="now-ui-icons users_circle-08"></i></span>
+                        </div>
+                            <input placeholder="Name"  [(ngModel)]="name" name="name" class="name" class="form-control" (focus)="focus=true" (blur)="focus=false" >
+                    </div>
+
+                    <div class="input-group form-group-no-border input-lg" [ngClass]="{'input-group-focus':focus1===true}">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="now-ui-icons text_caps-small"></i></span>
+                        </div>
+                        <input placeholder="Minecraft Name"  [(ngModel)]="nickName" name="nickName" class="nickName" class="form-control" (focus)="focus=true" (blur)="focus=false" >
+                    </div>
+
+                    <div class="input-group form-group-no-border input-lg" [ngClass]="{'input-group-focus':focus1===true}">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="now-ui-icons text_caps-small"></i></span>
+                    </div>
+                    <input placeholder="Email"  [(ngModel)]="email" name="email" class="email" class="form-control" (focus)="focus=true" (blur)="focus=false" >
+                    </div>
+                    
+                    <!--div class="input-group form-group-no-border input-lg" [ngClass]="{'input-group-focus':focus1===true}">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="now-ui-icons text_caps-small"></i></span>
+                        </div>
+                        <input placeholder="Phone"  [(ngModel)]="mobNumber" name="uuid" class="mobNumber" class="form-control" (focus)="focus=true" (blur)="focus=false" >
+                    </div-->
+
+                    <div class="input-group form-group-no-border input-lg" [ngClass]="{'input-group-focus':focus1===true}">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="now-ui-icons text_caps-small"></i></span>
+                        </div>
+                        <input type="password" placeholder="Password"  [(ngModel)]="password" name="password" class="password" class="form-control" (focus)="focus=true" (blur)="focus=false" >
+                    </div>
+                
+                    <button type ="submit" class="signup btn btn-default btn-lg" >Create Explorer Account</button>
+                    <div *ngIf="error_message!=null">
+                        <span style="color:red">{{error_message}}</span>
+                    </div>
+                </div>
+                   
+              </form>
+              <!--Happy Place is a Minecraft server we've been building on for three years. Lots to see.<br/>
+              <br/>
+              Start in Creative mode. Walk, fly and roller coaster anywhere.
+              
+              <h4>Create a My Happy Place account below to earn access to maps and features.</h4>
+              <ul style="list-style: none;">
+              <li>Login to server map.</li>
+              <li>Chat with us and other builders.</li>
+              <li>Get access to our Blog.</li>
+              <li>Compete in build competitions.</li>
+              <li>Required to complete any Builder Subsciption.</li>
+              </ul>
+              <br/>                
+              <h2>
+                Builder Subscription
+                </h2>
+                <h4>Get subscription build access to one 256 block plot on our Minecraft 1.12 server My.HappyPlaceMC.com — Only $1.99 monthly with 7 day trial.</h4>
+                <h4>Upgrading to Minecraft 1.15.2 soon!</h4-->   
+
+      </div>
+
+    </div>
+  </div>
+    <ng-template #successLabel>
+        <app-widget-login></app-widget-login>
+        <div style="padding: 22px;margin-top: -44px;">Explorer Account Created. Login to Explorer, if you please.</div>
+    </ng-template>
