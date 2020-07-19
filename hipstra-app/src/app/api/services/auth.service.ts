@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as jwt_decode from 'jwt-decode';
@@ -17,7 +17,77 @@ export class AuthService {
       private http: HttpClient,
       public apiConfiguration: ApiConfiguration
     ){}
+  /*
+  //Photo Lab
+  //Test API
+  //https://preview.webservices.fujifilmesys.com/spa/v3/ENDPOINT
   
+  Endpoints
+  /Catalogs Complete
+
+  Endpoints:
+  /catalogs
+  Catalog
+  Categories
+  CategoriesByCategory
+
+  
+  /{serviceType}/?
+  GenerationDateTime={generationDateTime}&
+  fulfillerName={fulfillerName}&
+  categoryId={categoryId}&
+  removeMultiImageProducts={removeMultiImageProducts}&
+  includeCustomProducts={includeCustomProducts}
+
+  serviceType: MailOrder StorePickup
+  generationDateTime: 2011-07-16T19:20:30-05:00 = formatdate()
+  fulfillerName: Walmart SamsClub RiteAid Costco
+  categoryId: 
+  */
+
+  fujitest() {
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': 'ApiKey=18e37d368fce45d8a0b5facf059b986b',
+        'Accept': 'application/json'
+      })
+    };
+    let datetimeformatted = this.formatdate();
+    let urlendpoint:string = 'https://preview.webservices.fujifilmesys.com/spa/v3/Catalogs/MailOrder/categories/?GenerationDateTime='+datetimeformatted+'&fulfillerNames=MailOrder&categoryId=&removeMultiImageProducts=false&includeCustomProducts=false'
+    this.http.get(urlendpoint,
+                  httpOptions
+      )
+      .subscribe((data) => {
+        console.log(data)
+      });
+  }
+
+  formatdate(){
+
+    Date.prototype.toISOString = function() {
+      var tzo = -this.getTimezoneOffset(),
+          dif = tzo >= 0 ? '+' : '-',
+          pad = function(num) {
+              var norm = Math.floor(Math.abs(num));
+              return (norm < 10 ? '0' : '') + norm;
+          };
+      return this.getFullYear() +
+          '-' + pad(this.getMonth() + 1) +
+          '-' + pad(this.getDate()) +
+          'T' + pad(this.getHours()) +
+          ':' + pad(this.getMinutes()) +
+          ':' + pad(this.getSeconds()) +
+          dif + pad(tzo / 60) +
+          ':' + pad(tzo % 60);
+  }
+  
+  let dt = new Date();
+
+  return dt.toISOString();
+
+  }
+
   checkname(nickName: string){
     return this.http.post('http://localhost:8082/api/checkName',{nickName: nickName})
     .pipe(

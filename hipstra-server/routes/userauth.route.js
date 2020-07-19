@@ -23,6 +23,7 @@ router.get('/protectedRoute',verifyToken,function(req,res){
     });
 });
 
+//Minecraft API
 router.post('/checkName',function(req,res){
     console.log("Check Minecraft Name");
     console.log(req.body);
@@ -40,7 +41,7 @@ router.post('/checkName',function(req,res){
         })
         .catch(err => console.log(err));
 });
-
+//Minecraft API
 router.post('/getProfile',function(req,res){
     console.log("Minecraft");
     MinecraftAPI.profileForUuid('f7242cb3b50240e6ac9b2ed26d6fc786')

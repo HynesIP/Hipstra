@@ -57,6 +57,9 @@ export class TalkComponent  {
     userName: string = this.user["name"];
 
   join(){
+
+    this.auth.fujitest();
+
     console.log("Request Started")
     this.build_type_unselected = true;
     this.request_unstarted = false;
